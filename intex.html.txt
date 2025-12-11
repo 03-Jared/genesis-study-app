@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genesis Study Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Frank+Ruhl+Libre:wght@300;400;700&family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;500&display=swap" rel="stylesheet">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    
+    <style>
+        :root {
+            --neon-blue: #00ffff;
+            --neon-purple: #a200ff;
+            --deep-bg: #020410;
+            --glass-panel: rgba(10, 14, 41, 0.7);
+            --glass-border: rgba(0, 210, 255, 0.2);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--deep-bg);
+            color: var(--text-main);
+            overflow: hidden; /* Prevent scroll on landing */
+            height: 100vh;
+        }
+
+        /* --- 1. COSMIC BACKGROUND --- */
+        .cosmic-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(59, 0, 255, 0.15), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(162, 0, 255, 0.15), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 1), transparent 90%);
+            background-color: #020410;
+            animation: nebulaPulse 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes nebulaPulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        /* --- 2. LANDING PAGE --- */
+        #landing-page {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            background: rgba(2, 4, 16, 0.8);
+            backdrop-filter: blur(5px);
+            transition: opacity 0.8s ease;
+        }
+
+        /* The Neon Cross */
+        .scene-3d {
+            perspective: 1000px;
+            width: 300px; height: 300px;
+            margin-bottom: 40px;
+            z-index: 10;
+        }
+        .cross-object {
+            position: relative;
+            width: 100%; height: 100%;
+            transform-style: preserve-3d;
+            animation: spinCross 25s linear infinite;
+        }
+        .beam {
+            position: absolute;
+            top: 50%; left: 50%;
+            background: rgba(0, 10, 40, 0.85);
+            backdrop-filter: blur(15px);
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue), inset 0 0 20px rgba(0,255,255,0.2);
+        }
+        .beam-v { width: 40px; height: 260px; transform: translate(-50%, -50%); }
+        .beam-h { width: 180px; height: 40px; transform: translate(-50%, -120%); }
+        
+        @keyframes spinCross {
+            0% { transform: rotateY(0deg) rotateX(5deg); }
+            100% { transform: rotateY(360deg) rotateX(5deg); }
+        }
+
+        /* Whispers Text */
+        #whisper-container {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; text-align: center;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .whisper-word {
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            opacity: 0;
+            color: rgba(255, 255, 255, 0.08);
+            filter: blur(3px);
+            white-space: nowrap;
+        }
+
+        /* Typography & Buttons */
+        h1.title {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            letter-spacing: 0.2em;
+            color: white;
+            text-shadow: 0 0 30px rgba(0, 210, 255, 0.6);
+            margin: 0;
+            z-index: 10;
+        }
+        .subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-muted);
+            letter-spacing: 0.4em;
+            margin-bottom: 40px;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+        .start-btn {
+            background: linear-gradient(135deg, #3b00ff, #a200ff);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 15px 50px;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: bold;
+            letter-spacing: 0.2em;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(59, 0, 255, 0.4);
+            z-index: 10;
+        }
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(0, 210, 255, 0.6);
+        }
+
+        /* --- 3. MAIN APP LAYOUT --- */
+        #app-container {
+            display: none; /* Hidden by default */
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 260px 1fr 380px; /* 3 Panes */
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        /* Mobile Layout */
+        @media (max-width: 900px) {
+            #app-container { grid-template-columns: 1fr; }
+            .sidebar, .decoder-panel { display: none; } /* Simplified mobile for now */
+        }
+
+        /* Common Panel Styles */
+        .panel {
+            background: var(--glass-panel);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* Sidebar */
+        .sidebar { border-right: 1px solid var(--glass-border); }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; color: var(--text-muted); font-size: 0.7rem; margin-bottom: 5px; letter-spacing: 1px; }
+        .glass-input {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+        }
+        .load-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #3b00ff, #00d2ff);
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Reader (Center) */
+        .reader-panel { 
+            padding: 40px; 
+            overflow-y: scroll;
+        }
+        .verse-container {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+        .verse-container.active {
+            background: rgba(59, 0, 255, 0.1);
+            border-left: 2px solid var(--neon-blue);
+        }
+        .hebrew-text {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 2.2rem;
+            color: white;
+            direction: rtl;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .english-text {
+            font-family: 'Inter', sans-serif;
+            color: #94a3b8;
+            font-style: italic;
+            font-size: 1rem;
+            line-height: 1.5;
+            transition: color 0.3s;
+        }
+        .hebrew-word {
+            cursor: pointer;
+            padding: 0 2px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .hebrew-word:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        /* Decoder (Right) */
+        .decoder-panel { border-left: 1px solid var(--glass-border); }
+        .selected-word-display {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .big-hebrew { font-family: 'Frank Ruhl Libre', serif; font-size: 4rem; color: white; text-shadow: 0 0 30px rgba(162,0,255,0.5); }
+        
+        /* Letter Cards Grid */
+        .letters-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .letter-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .letter-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .pictograph { font-size: 2rem; display: block; margin: 5px 0; }
+        .letter-name { color: var(--neon-blue); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .letter-meaning { font-size: 0.8rem; color: #cbd5e1; }
+
+        /* Journal */
+        .journal-area {
+            margin-top: auto;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border-radius: 10px;
+            resize: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .export-btn {
+            margin-top: 10px;
+            background: transparent;
+            border: 1px solid var(--neon-purple);
+            color: var(--neon-purple);
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .export-btn:hover {
+            background: var(--neon-purple);
+            color: white;
+            box-shadow: 0 0 20px rgba(162, 0, 255, 0.4);
+        }
+
+        /* Hidden Export Card */
+        #export-card {
+            position: absolute; top: -9999px; left: -9999px;
+            width: 400px; height: 711px; /* 9:16 Ratio */
+            background: linear-gradient(180deg, #050510 0%, #1a0b2e 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 40px; box-sizing: border-box; text-align: center;
+            border: 4px solid #D4AF37;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="cosmic-bg"></div>
+
+    <div id="landing-page">
+        <div id="whisper-container"></div>
+
+        <div class="scene-3d">
+            <div class="cross-object">
+                <div class="beam beam-v"></div>
+                <div class="beam beam-h"></div>
+            </div>
+        </div>
+
+        <h1 class="title">GENESIS</h1>
+        <div class="subtitle">STUDY SUITE /// V3.0</div>
+        <button class="start-btn" onclick="enterApp()">START DECODING</button>
+    </div>
+
+    <div id="app-container">
+        
+        <div class="panel sidebar">
+            <div style="margin-bottom: 30px; font-family:'Cinzel'; color:var(--neon-blue);">≡ CODEX</div>
+            
+            <div class="input-group">
+                <label>BOOK</label>
+                <select id="bookInput" class="glass-input">
+                    <option value="Genesis">Genesis</option>
+                    <option value="Exodus">Exodus</option>
+                    <option value="Leviticus">Leviticus</option>
+                    <option value="Numbers">Numbers</option>
+                    <option value="Deuteronomy">Deuteronomy</option>
+                    <option value="Psalms">Psalms</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label>CHAPTER</label>
+                <input type="number" id="chapterInput" class="glass-input" value="1">
+            </div>
+
+            <button class="load-btn" onclick="fetchScripture()">LOAD SCRIPTURE</button>
+
+            <div style="margin-top: 30px;">
+                <label>RECENT</label>
+                <div id="historyList" style="font-size: 0.9rem; color: #64748b; margin-top:10px;"></div>
+            </div>
+        </div>
+
+        <div class="panel reader-panel" id="readerContent">
+            <div style="text-align:center; margin-top:100px; color:#64748b;">
+                Select a book and chapter to begin.
+            </div>
+        </div>
+
+        <div class="panel decoder-panel">
+            <div style="font-family:'Cinzel'; color:var(--neon-purple); margin-bottom:20px; text-align:right;">RHEMA SCOPE ⤢</div>
+            
+            <div class="selected-word-display">
+                <div id="displayHebrew" class="big-hebrew">...</div>
+                <div id="displayEnglish" style="color:var(--text-muted); font-size:0.9rem;">Select a word</div>
+            </div>
+
+            <div id="lettersContainer" class="letters-grid">
+                </div>
+
+            <textarea id="rhemaJournal" class="journal-area" placeholder="Write your spiritual insights here..." oninput="saveJournal()"></textarea>
+            <button class="export-btn" onclick="exportCard()">✨ DOWNLOAD RHEMA CARD</button>
+        </div>
+    </div>
+
+    <div id="export-card">
+        <h2 style="font-family:'Cinzel'; color:#D4AF37; font-size:2rem; margin-bottom:10px;">RHEMA</h2>
+        <div id="exportHebrew" style="font-family:'Frank Ruhl Libre'; font-size:5rem; color:white; margin:20px 0;">word</div>
+        <div id="exportVerse" style="color:#aaa; margin-bottom:30px;">Genesis 1:1</div>
+        <div id="exportIcons" style="display:flex; gap:10px; font-size:2rem; margin-bottom:30px;">🐮 🏠</div>
+        <div id="exportNote" style="font-family:'Inter'; color:white; font-size:1.2rem; line-height:1.5;"></div>
+    </div>
+
+    <script>
+        // --- 1. DATA: Paleo Map ---
+        const paleoMap = {
+            'א': { name: 'Aleph', mean: 'Ox, Strength, Leader', icon: '🐮' },
+            'ב': { name: 'Bet', mean: 'House, Tent, In', icon: '🏠' },
+            'ג': { name: 'Gimel', mean: 'Camel, Foot, Walk', icon: '🐫' },
+            'ד': { name: 'Dalet', mean: 'Door, Path, Move', icon: '🚪' },
+            'ה': { name: 'Hey', mean: 'Behold, Look, Breath', icon: '🙌' },
+            'ו': { name: 'Vav', mean: 'Nail, Peg, Add', icon: '🪝' },
+            'ז': { name: 'Zayin', mean: 'Weapon, Cut', icon: '⚔️' },
+            'ח': { name: 'Chet', mean: 'Fence, Wall', icon: '🧱' },
+            'ט': { name: 'Tet', mean: 'Basket, Snake', icon: '🧺' },
+            'י': { name: 'Yod', mean: 'Hand, Arm, Work', icon: '💪' },
+            'כ': { name: 'Kaf', mean: 'Palm, Open', icon: '✋' },
+            'ך': { name: 'Kaf (Final)', mean: 'Palm, Open', icon: '✋' },
+            'ל': { name: 'Lamed', mean: 'Staff, Teach', icon: '🦯' },
+            'מ': { name: 'Mem', mean: 'Water, Chaos', icon: '🌊' },
+            'ם': { name: 'Mem (Final)', mean: 'Water, Chaos', icon: '🌊' },
+            'נ': { name: 'Nun', mean: 'Seed, Life', icon: '🌱' },
+            'ן': { name: 'Nun (Final)', mean: 'Seed, Life', icon: '🌱' },
+            'ס': { name: 'Samekh', mean: 'Prop, Support', icon: '🪵' },
+            'ע': { name: 'Ayin', mean: 'Eye, See', icon: '👁️' },
+            'פ': { name: 'Pey', mean: 'Mouth, Speak', icon: '👄' },
+            'ף': { name: 'Pey (Final)', mean: 'Mouth, Speak', icon: '👄' },
+            'צ': { name: 'Tsade', mean: 'Fishhook, Hunt', icon: '🎣' },
+            'ץ': { name: 'Tsade (Final)', mean: 'Fishhook, Hunt', icon: '🎣' },
+            'ק': { name: 'Qof', mean: 'Sun, Horizon', icon: '☀️' },
+            'ר': { name: 'Resh', mean: 'Head, Person', icon: '👤' },
+            'ש': { name: 'Shin', mean: 'Teeth, Fire', icon: '🔥' },
+            'ת': { name: 'Tav', mean: 'Mark, Sign', icon: '❌' }
+        };
+
+        let currentWord = "";
+        
+        // --- 2. WHISPER ANIMATION ---
+        const whisperWords = ['RIGHTEOUSNESS', 'יהוה', 'GRACE', 'CHILD OF GOD', 'ישוע', 'ANOINTED', 'ROYALTY', 'רוּחַ הַקּוֹדֶשׁ', 'CHOSEN', 'אֱמֶת', 'FAVOR', 'שלום'];
+        
+        function startWhispers() {
+            const container = document.getElementById('whisper-container');
+            
+            setInterval(() => {
+                const word = whisperWords[Math.floor(Math.random() * whisperWords.length)];
+                const el = document.createElement('div');
+                el.className = 'whisper-word';
+                el.innerText = word;
+                
+                // Random position adjustments
+                el.style.left = (50 + (Math.random() * 40 - 20)) + '%';
+                el.style.top = (50 + (Math.random() * 40 - 20)) + '%';
+                
+                // Font choice
+                if (/[a-zA-Z]/.test(word)) {
+                    el.style.fontFamily = "'Cinzel', serif";
+                    el.style.letterSpacing = "0.5em";
+                } else {
+                    el.style.fontFamily = "'Frank Ruhl Libre', serif";
+                }
+
+                container.appendChild(el);
+
+                // Animate
+                el.animate([
+                    { opacity: 0, transform: 'translate(-50%, -50%) scale(0.9)' },
+                    { opacity: 0.15, transform: 'translate(-50%, -60%) scale(1)', offset: 0.5 },
+                    { opacity: 0, transform: 'translate(-50%, -70%) scale(1.1)' }
+                ], {
+                    duration: 8000,
+                    easing: 'ease-in-out'
+                }).onfinish = () => el.remove();
+
+            }, 4000); // New word every 4 seconds
+        }
+
+        // --- 3. APP NAVIGATION ---
+        function enterApp() {
+            document.getElementById('landing-page').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('landing-page').style.display = 'none';
+                const app = document.getElementById('app-container');
+                app.style.display = 'grid'; // Restore grid
+                // Trigger reflow
+                app.offsetHeight; 
+                app.style.opacity = '1';
+                fetchScripture(); // Load Genesis 1 default
+            }, 800);
+        }
+
+        // --- 4. BIBLE LOGIC (SEFARIA) ---
+        async function fetchScripture() {
+            const book = document.getElementById('bookInput').value;
+            const chapter = document.getElementById('chapterInput').value;
+            const container = document.getElementById('readerContent');
+            
+            container.innerHTML = '<div style="text-align:center; margin-top:50px;">Accessing Ancient Archives...</div>';
+
+            try {
+                // Fetch Hebrew
+                const resHe = await fetch(`https://www.sefaria.org/api/texts/${book}.${chapter}?context=0`);
+                const data = await resHe.json();
+
+                if (!data.he || data.error) throw new Error("Scripture not found");
+
+                let html = `<h2 style="text-align:center; font-family:'Cinzel'; margin-bottom:40px; color:white;">${book.toUpperCase()} ${chapter}</h2>`;
+
+                data.he.forEach((hebrewVerse, index) => {
+                    // English fallback
+                    const englishVerse = data.text[index] || "";
+                    
+                    // Wrap Hebrew words
+                    const words = hebrewVerse.split(' ').map(w => `<span class="hebrew-word" onclick="analyze('${w}')">${w}</span>`).join(' ');
+
+                    html += `
+                    <div class="verse-container" id="verse-${index}">
+                        <div class="hebrew-text">${words}</div>
+                        <div class="english-text">${englishVerse.replace(/<[^>]*>/g, '')}</div>
+                    </div>`;
+                });
+
+                container.innerHTML = html;
+
+            } catch (e) {
+                container.innerHTML = `<div style="text-align:center; color:red;">Error: ${e.message}</div>`;
+            }
+        }
+
+        // --- 5. DECODER LOGIC ---
+        function analyze(word) {
+            // Clean word
+            const cleanWord = word.replace(/[^\u0590-\u05FF]/g, ''); // Keep only Hebrew chars
+            currentWord = cleanWord;
+
+            // Update UI
+            document.getElementById('displayHebrew').innerText = cleanWord;
+            document.getElementById('displayEnglish').innerText = "Analyzing Pictographs...";
+            
+            const container = document.getElementById('lettersContainer');
+            container.innerHTML = '';
+
+            // Load Journal
+            const savedNote = localStorage.getItem('rhema_' + cleanWord) || "";
+            document.getElementById('rhemaJournal').value = savedNote;
+
+            // Generate Cards
+            const letters = cleanWord.split('');
+            letters.forEach(char => {
+                if(char < '\u05D0' || char > '\u05EA') return; // Skip vowel points
+                
+                const info = paleoMap[char] || {name: 'Unknown', mean:'?', icon:'?'};
+                
+                const card = document.createElement('div');
+                card.className = 'letter-card';
+                card.innerHTML = `
+                    <div class="pictograph" style="color:#00ffff">${info.icon}</div>
+                    <div class="letter-name">${info.name}</div>
+                    <div class="letter-meaning">${info.mean}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- 6. JOURNAL & EXPORT ---
+        function saveJournal() {
+            if(!currentWord) return;
+            const text = document.getElementById('rhemaJournal').value;
+            localStorage.setItem('rhema_' + currentWord, text);
+        }
+
+        function exportCard() {
+            if(!currentWord) return alert("Select a word first!");
+
+            // Populate hidden card
+            document.getElementById('exportHebrew').innerText = currentWord;
+            document.getElementById('exportNote').innerText = document.getElementById('rhemaJournal').value;
+            
+            // Get icons
+            let icons = "";
+            const letters = currentWord.split('');
+            letters.forEach(c => {
+                 if(paleoMap[c]) icons += paleoMap[c].icon + " ";
+            });
+            document.getElementById('exportIcons').innerText = icons;
+
+            // Capture
+            html2canvas(document.getElementById('export-card'), {
+                backgroundColor: null,
+                scale: 2
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Rhema-${currentWord}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        // Start Whispers on Load
+        startWhispers();
+
+    </script>
+</body>
+</html>
