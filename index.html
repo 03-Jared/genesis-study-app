@@ -32,7 +32,7 @@
             height: 100vh;
         }
 
-        /* --- 1. THE NEBULA BACKGROUND --- */
+        /* --- 1. NEBULA BACKGROUND --- */
         .cosmic-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -44,90 +44,45 @@
             background-size: 200% 200%;
             animation: nebulaDrift 20s ease-in-out infinite alternate;
         }
-
-        @keyframes nebulaDrift {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
+        @keyframes nebulaDrift { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
 
         /* --- 2. LANDING PAGE --- */
         #landing-page {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            background: rgba(2, 4, 16, 0.98);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 100; background: rgba(2, 4, 16, 0.98);
             transition: opacity 1s ease, visibility 1s;
         }
 
-        /* The Neon Obsidian Cross */
-        .scene-3d {
-            perspective: 1000px;
-            width: 300px; height: 300px;
-            margin-bottom: 50px;
-            z-index: 10;
-        }
-        .cross-object {
-            position: relative;
-            width: 100%; height: 100%;
-            transform-style: preserve-3d;
-            animation: spinCross 20s linear infinite;
-        }
-        
+        /* Neon Cross Animation */
+        .scene-3d { perspective: 1000px; width: 300px; height: 300px; margin-bottom: 50px; z-index: 10; }
+        .cross-object { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; animation: spinCross 20s linear infinite; }
         .beam {
-            position: absolute;
-            top: 50%; left: 50%;
-            background: rgba(0, 10, 40, 0.85); 
-            backdrop-filter: blur(20px);
+            position: absolute; top: 50%; left: 50%;
+            background: rgba(0, 10, 40, 0.85); backdrop-filter: blur(20px);
             border: 2px solid var(--neon-cyan);
             box-shadow: 0 0 10px var(--neon-cyan), inset 0 0 20px rgba(0, 255, 255, 0.2);
         }
-        
         .beam-v { width: 50px; height: 280px; transform: translate(-50%, -50%); }
         .beam-h { width: 200px; height: 50px; transform: translate(-50%, -120%); }
         .beam::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            box-shadow: inset 0 0 30px var(--neon-cyan);
-            opacity: 0.5;
+            box-shadow: inset 0 0 30px var(--neon-cyan); opacity: 0.5;
             animation: pulseInternal 4s ease-in-out infinite;
         }
+        @keyframes spinCross { 0% { transform: rotateY(0deg) rotateX(10deg); } 100% { transform: rotateY(360deg) rotateX(10deg); } }
+        @keyframes pulseInternal { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.7; } }
 
-        @keyframes spinCross {
-            0% { transform: rotateY(0deg) rotateX(10deg); }
-            100% { transform: rotateY(360deg) rotateX(10deg); }
-        }
-        @keyframes pulseInternal {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Ambient "Whispers" Text */
-        #whisper-container {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0; overflow: hidden;
-        }
+        /* Whispers Animation */
+        #whisper-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
         .whisper-word {
-            position: absolute;
-            font-size: 4rem;
-            color: rgba(200, 220, 255, 0.08);
-            filter: blur(3px);
-            white-space: nowrap;
-            opacity: 0;
-            user-select: none;
+            position: absolute; font-size: 4rem; color: rgba(200, 220, 255, 0.08);
+            filter: blur(3px); white-space: nowrap; opacity: 0; user-select: none;
         }
 
-        /* Titles & Buttons */
-        h1.title {
-            font-family: 'Cinzel', serif; font-size: 3.5rem; letter-spacing: 0.3em;
-            color: white; text-shadow: 0 0 30px rgba(0, 210, 255, 0.5); margin: 0; z-index: 10;
-        }
-        .subtitle {
-            font-family: 'Space Grotesk', sans-serif; color: var(--text-muted);
-            letter-spacing: 0.5em; margin-bottom: 50px; font-size: 0.9rem; z-index: 10;
-        }
+        /* Titles */
+        h1.title { font-family: 'Cinzel', serif; font-size: 3.5rem; letter-spacing: 0.3em; color: white; text-shadow: 0 0 30px rgba(0, 210, 255, 0.5); margin: 0; z-index: 10; }
+        .subtitle { font-family: 'Space Grotesk', sans-serif; color: var(--text-muted); letter-spacing: 0.5em; margin-bottom: 50px; font-size: 0.9rem; z-index: 10; }
         .start-btn {
             background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
             border: 1px solid rgba(255,255,255,0.2); padding: 18px 60px;
@@ -135,148 +90,108 @@
             letter-spacing: 0.2em; cursor: pointer; border-radius: 50px;
             transition: all 0.3s; box-shadow: 0 0 30px rgba(59, 0, 255, 0.4); z-index: 10;
         }
-        .start-btn:hover {
-            transform: scale(1.05); box-shadow: 0 0 60px rgba(0, 210, 255, 0.6);
-        }
+        .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 60px rgba(0, 210, 255, 0.6); }
 
-        /* --- 3. MAIN APPLICATION LAYOUT --- */
+        /* --- 3. MAIN APP LAYOUT --- */
         #app-container {
             display: none; height: 100vh;
-            display: grid;
-            grid-template-columns: 280px 1fr 400px;
+            display: grid; grid-template-columns: 280px 1fr 400px;
             opacity: 0; transition: opacity 1s ease;
         }
-        
         @media (max-width: 1024px) {
             #app-container { grid-template-columns: 1fr; }
             .sidebar, .decoder-panel { display: none; }
         }
 
-        /* --- PANELS & MAXIMIZE LOGIC --- */
+        /* Panels */
         .panel {
-            background: var(--glass-panel);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid var(--glass-border);
-            display: flex; flex-direction: column;
-            overflow-y: auto; position: relative;
-            transition: all 0.3s ease;
+            background: var(--glass-panel); backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border); display: flex; flex-direction: column;
+            overflow-y: auto; position: relative; transition: all 0.3s ease;
         }
-        
-        /* Maximize/Minimize Classes */
-        .panel.fullscreen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000;
-            border: none;
-        }
+        .panel.fullscreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; border: none; }
         .panel.hidden-panel { display: none; }
-
-        /* Panel Header (Container for controls) */
+        
         .panel-header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
             background: rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 50;
         }
-        .panel-title {
-            font-family: 'Cinzel', serif; color: var(--neon-cyan); letter-spacing: 2px; font-size: 0.9rem;
-        }
-        .max-btn {
-            background: transparent; border: none; color: var(--text-muted);
-            cursor: pointer; font-size: 1.2rem; transition: color 0.3s;
-        }
+        .panel-title { font-family: 'Cinzel', serif; color: var(--neon-cyan); letter-spacing: 2px; font-size: 0.9rem; }
+        .max-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; }
         .max-btn:hover { color: white; text-shadow: 0 0 10px white; }
 
-        /* Sidebar Inputs */
+        /* Sidebar Elements */
         .sidebar-content { padding: 20px; }
         .input-group { margin-bottom: 25px; }
-        .label-text {
-            display: block; color: var(--text-muted); font-size: 0.7rem; 
-            margin-bottom: 8px; letter-spacing: 1px; font-weight: 600;
-        }
+        .label-text { display: block; color: var(--text-muted); font-size: 0.7rem; margin-bottom: 8px; font-weight: 600; }
         .glass-input {
-            width: 100%; background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.1); padding: 15px;
-            border-radius: 30px; color: white; font-family: 'Inter', sans-serif;
+            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px; border-radius: 30px; color: white; font-family: 'Inter', sans-serif;
             box-sizing: border-box; outline: none; transition: border-color 0.3s;
         }
         .glass-input:focus { border-color: var(--neon-cyan); }
         .load-btn {
             width: 100%; background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
-            border: none; padding: 15px; border-radius: 30px;
-            color: white; font-weight: bold; letter-spacing: 1px; cursor: pointer; margin-top: 10px;
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2); transition: transform 0.2s;
+            border: none; padding: 15px; border-radius: 30px; color: white; font-weight: bold;
+            cursor: pointer; margin-top: 10px; box-shadow: 0 0 20px rgba(0, 210, 255, 0.2); transition: transform 0.2s;
         }
         .load-btn:hover { transform: scale(1.02); }
 
-        /* Reader Content */
+        /* Reader */
         .reader-panel { padding: 0; scroll-behavior: smooth; }
         .reader-content { padding: 50px 80px; }
-        
-        .verse-block {
-            margin-bottom: 40px; padding: 20px; border-left: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-        .verse-block.active {
-            border-left-color: var(--neon-cyan);
-            background: linear-gradient(90deg, rgba(0, 255, 255, 0.05), transparent);
-        }
-        
-        /* FIXED: ENGLISH ON TOP */
-        .english-line {
-            font-family: 'Inter', sans-serif; color: #94a3b8; /* Dimmed */
-            font-style: italic; font-size: 1.1rem; line-height: 1.6;
-            margin-bottom: 15px; display: block;
-        }
-        .hebrew-line {
-            font-family: 'Frank Ruhl Libre', serif; font-size: 2.5rem;
-            color: white; direction: rtl; line-height: 1.6;
-        }
-        .h-word {
-            cursor: pointer; padding: 0 4px; border-radius: 4px; transition: all 0.2s;
-        }
+        .verse-block { margin-bottom: 40px; padding: 20px; border-left: 2px solid transparent; transition: all 0.3s ease; }
+        .verse-block.active { border-left-color: var(--neon-cyan); background: linear-gradient(90deg, rgba(0, 255, 255, 0.05), transparent); }
+        .english-line { font-family: 'Inter', sans-serif; color: #94a3b8; font-style: italic; font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; display: block; }
+        .hebrew-line { font-family: 'Frank Ruhl Libre', serif; font-size: 2.5rem; color: white; direction: rtl; line-height: 1.6; }
+        .h-word { cursor: pointer; padding: 0 4px; border-radius: 4px; transition: all 0.2s; }
         .h-word:hover { color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan); }
 
         /* Decoder */
         .decoder-content { padding: 30px; }
-        .big-hebrew-display {
-            font-family: 'Frank Ruhl Libre', serif; font-size: 4.5rem; 
-            color: white; text-shadow: 0 0 30px rgba(162,0,255,0.6); text-align: center;
-        }
-        .sub-text { color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; text-align: center; margin-bottom: 30px;}
-        
+        .big-hebrew-display { font-family: 'Frank Ruhl Libre', serif; font-size: 4.5rem; color: white; text-shadow: 0 0 30px rgba(162,0,255,0.6); text-align: center; }
+        .sub-text { color: var(--text-muted); font-size: 0.9rem; text-align: center; margin-bottom: 30px; }
         .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+        
         .paleo-card {
             background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 15px; padding: 20px; text-align: center;
-            transition: transform 0.3s, border-color 0.3s;
+            border-radius: 15px; padding: 20px; text-align: center; transition: transform 0.3s;
+            display: flex; flex-direction: column; align-items: center;
         }
-        .paleo-card:hover {
-            transform: translateY(-5px); border-color: var(--neon-cyan);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        .paleo-card:hover { transform: translateY(-5px); border-color: var(--neon-cyan); }
+        
+        /* IMAGE STYLES - WITH BLEND MODE TRICK */
+        .paleo-img {
+            width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px;
+            mix-blend-mode: screen; /* Removes black background */
+            filter: drop-shadow(0 0 8px cyan);
+            transition: transform 0.3s ease;
         }
-        .pc-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .paleo-img:hover { transform: scale(1.15); }
+        
         .pc-name { color: var(--neon-cyan); font-size: 0.8rem; font-weight: bold; }
         .pc-mean { font-size: 0.8rem; color: #cbd5e1; }
-
         .journal-box {
             background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px; width: 100%; height: 150px; padding: 15px;
-            color: white; font-family: 'Inter', sans-serif; resize: none; outline: none;
-            box-sizing: border-box;
+            border-radius: 15px; width: 100%; height: 100px; padding: 15px;
+            color: white; font-family: 'Inter', sans-serif; resize: none; outline: none; box-sizing: border-box;
         }
+
         .export-btn {
-            background: transparent; border: 1px solid var(--neon-purple);
-            color: var(--neon-purple); padding: 12px; width: 100%;
-            border-radius: 12px; margin-top: 15px; cursor: pointer; font-weight: bold;
-            transition: all 0.3s;
+            background: transparent; border: 1px solid var(--neon-purple); margin-top: 15px;
+            color: var(--neon-purple); padding: 12px; width: 100%; border-radius: 12px; cursor: pointer; font-weight: bold; transition: all 0.3s;
         }
         .export-btn:hover { background: var(--neon-purple); color: white; box-shadow: 0 0 20px rgba(162, 0, 255, 0.4); }
 
-        /* HIDDEN EXPORT */
+        /* Hidden Export Template */
         #export-canvas {
             position: fixed; top: -9999px; left: -9999px; width: 1080px; height: 1920px;
             background: linear-gradient(180deg, #050510 0%, #1a0b2e 100%);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             padding: 100px; box-sizing: border-box; text-align: center; border: 20px solid #D4AF37;
         }
+        #ex-icons img { width: 150px; height: 150px; mix-blend-mode: screen; filter: drop-shadow(0 0 10px cyan); }
     </style>
 </head>
 <body>
@@ -292,7 +207,7 @@
             </div>
         </div>
         <h1 class="title">GENESIS</h1>
-        <div class="subtitle">STUDY SUITE /// V3.0</div>
+        <div class="subtitle">STUDY SUITE /// V4.2</div>
         <button class="start-btn" onclick="startApp()">START DECODING</button>
     </div>
 
@@ -303,40 +218,23 @@
                 <span class="panel-title">≡ CODEX</span>
                 <button class="max-btn" onclick="toggleMaximize('panel-sidebar')">⤢</button>
             </div>
-            
             <div class="sidebar-content">
                 <div class="input-group">
                     <span class="label-text">BOOK</span>
                     <select id="bookInput" class="glass-input">
-                        <option value="Genesis">Genesis</option>
-                        <option value="Exodus">Exodus</option>
-                        <option value="Leviticus">Leviticus</option>
-                        <option value="Numbers">Numbers</option>
-                        <option value="Deuteronomy">Deuteronomy</option>
-                        <option value="Psalms">Psalms</option>
-                        <option value="Proverbs">Proverbs</option>
-                        <option value="Isaiah">Isaiah</option>
-                        <option value="John">John</option>
-                        <option value="Revelation">Revelation</option>
+                        <option value="Genesis">Genesis</option><option value="Exodus">Exodus</option><option value="Leviticus">Leviticus</option><option value="Numbers">Numbers</option><option value="Deuteronomy">Deuteronomy</option><option value="Psalms">Psalms</option><option value="Proverbs">Proverbs</option><option value="Isaiah">Isaiah</option><option value="John">John</option><option value="Revelation">Revelation</option>
                     </select>
                 </div>
-                
                 <div class="input-group">
                     <span class="label-text">CHAPTER</span>
                     <input type="number" id="chapterInput" class="glass-input" value="1" min="1">
                 </div>
-
                 <div class="input-group">
                     <span class="label-text">VERSE (OPTIONAL)</span>
                     <input type="number" id="verseInput" class="glass-input" placeholder="All">
                 </div>
-
                 <button class="load-btn" onclick="fetchScripture()">LOAD SCRIPTURE</button>
-                
-                <div style="margin-top:40px;">
-                    <span class="label-text">RECENT WORDS</span>
-                    <div id="historyList" style="margin-top:10px; font-size:0.85rem; color:#64748b;"></div>
-                </div>
+                <div style="margin-top:40px;"><span class="label-text">RECENT WORDS</span><div id="historyList" style="margin-top:10px; font-size:0.85rem; color:#64748b;"></div></div>
             </div>
         </div>
 
@@ -345,11 +243,8 @@
                 <span class="panel-title">SCRIPTURE</span>
                 <button class="max-btn" onclick="toggleMaximize('panel-reader')">⤢</button>
             </div>
-            
             <div class="reader-content" id="readerContent">
-                <div style="text-align:center; margin-top:150px; color:#64748b;">
-                    System Ready. Load a chapter to begin.
-                </div>
+                <div style="text-align:center; margin-top:150px; color:#64748b;">System Ready. Load a chapter to begin.</div>
             </div>
         </div>
 
@@ -358,13 +253,10 @@
                 <span class="panel-title">RHEMA SCOPE</span>
                 <button class="max-btn" onclick="toggleMaximize('panel-decoder')">⤢</button>
             </div>
-            
             <div class="decoder-content">
                 <div id="displayHebrew" class="big-hebrew-display">...</div>
                 <div id="displayEnglish" class="sub-text">Select a word</div>
-
                 <div id="lettersContainer" class="cards-grid"></div>
-
                 <textarea id="rhemaJournal" class="journal-box" placeholder="Write your spiritual insights here..." oninput="saveJournal()"></textarea>
                 <button class="export-btn" onclick="exportCard()">✨ DOWNLOAD RHEMA CARD</button>
             </div>
@@ -375,45 +267,46 @@
         <h2 style="font-family:'Cinzel'; color:#D4AF37; font-size:4rem; margin-bottom:20px;">RHEMA</h2>
         <div id="ex-hebrew" style="font-family:'Frank Ruhl Libre'; font-size:12rem; color:white; margin:40px 0; text-shadow:0 0 50px rgba(255,255,255,0.5);">word</div>
         <div id="ex-verse" style="font-family:'Cinzel'; color:#aaa; font-size:2rem; margin-bottom:60px;">Genesis 1:1</div>
-        <div id="ex-icons" style="display:flex; gap:30px; font-size:5rem; margin-bottom:60px;"></div>
+        <div id="ex-icons" style="display:flex; gap:30px; font-size:5rem; margin-bottom:60px; justify-content:center;"></div>
         <div id="ex-note" style="font-family:'Inter'; color:white; font-size:2.5rem; line-height:1.6; max-width:800px;"></div>
     </div>
 
     <script>
+        // --- DATA MAP: Pointing to Local Images ---
         const paleoMap = {
-            'א': { name: 'Aleph', mean: 'Ox, Strength, Leader', icon: '🐮' },
-            'ב': { name: 'Bet', mean: 'House, Tent, In', icon: '🏠' },
-            'ג': { name: 'Gimel', mean: 'Camel, Foot, Walk', icon: '🐫' },
-            'ד': { name: 'Dalet', mean: 'Door, Path, Move', icon: '🚪' },
-            'ה': { name: 'Hey', mean: 'Behold, Look, Breath', icon: '🙌' },
-            'ו': { name: 'Vav', mean: 'Nail, Peg, Add', icon: '🪝' },
-            'ז': { name: 'Zayin', mean: 'Weapon, Cut', icon: '⚔️' },
-            'ח': { name: 'Chet', mean: 'Fence, Wall', icon: '🧱' },
-            'ט': { name: 'Tet', mean: 'Basket, Snake', icon: '🧺' },
-            'י': { name: 'Yod', mean: 'Hand, Arm, Work', icon: '💪' },
-            'כ': { name: 'Kaf', mean: 'Palm, Open', icon: '✋' },
-            'ך': { name: 'Kaf (Final)', mean: 'Palm, Open', icon: '✋' },
-            'ל': { name: 'Lamed', mean: 'Staff, Teach', icon: '🦯' },
-            'מ': { name: 'Mem', mean: 'Water, Chaos', icon: '🌊' },
-            'ם': { name: 'Mem (Final)', mean: 'Water, Chaos', icon: '🌊' },
-            'נ': { name: 'Nun', mean: 'Seed, Life', icon: '🌱' },
-            'ן': { name: 'Nun (Final)', mean: 'Seed, Life', icon: '🌱' },
-            'ס': { name: 'Samekh', mean: 'Prop, Support', icon: '🪵' },
-            'ע': { name: 'Ayin', mean: 'Eye, See', icon: '👁️' },
-            'פ': { name: 'Pey', mean: 'Mouth, Speak', icon: '👄' },
-            'ף': { name: 'Pey (Final)', mean: 'Mouth, Speak', icon: '👄' },
-            'צ': { name: 'Tsade', mean: 'Fishhook, Hunt', icon: '🎣' },
-            'ץ': { name: 'Tsade (Final)', mean: 'Fishhook, Hunt', icon: '🎣' },
-            'ק': { name: 'Qof', mean: 'Sun, Horizon', icon: '☀️' },
-            'ר': { name: 'Resh', mean: 'Head, Person', icon: '👤' },
-            'ש': { name: 'Shin', mean: 'Teeth, Fire', icon: '🔥' },
-            'ת': { name: 'Tav', mean: 'Mark, Sign', icon: '❌' }
+            'א': { name: 'Aleph', mean: 'Ox, Strength', img: 'images/aleph.png' },
+            'ב': { name: 'Bet', mean: 'House, Tent', img: 'images/bet.png' },
+            'ג': { name: 'Gimel', mean: 'Camel, Foot', img: 'images/gimel.png' },
+            'ד': { name: 'Dalet', mean: 'Door, Path', img: 'images/dalet.png' },
+            'ה': { name: 'Hey', mean: 'Behold, Breath', img: 'images/hey.png' },
+            'ו': { name: 'Vav', mean: 'Nail, Peg', img: 'images/vav.png' },
+            'ז': { name: 'Zayin', mean: 'Weapon, Cut', img: 'images/zayin.png' },
+            'ח': { name: 'Chet', mean: 'Fence, Wall', img: 'images/chet.png' },
+            'ט': { name: 'Tet', mean: 'Basket, Snake', img: 'images/tet.png' },
+            'י': { name: 'Yod', mean: 'Hand, Work', img: 'images/yod.png' },
+            'כ': { name: 'Kaf', mean: 'Palm, Open', img: 'images/kaf.png' },
+            'ך': { name: 'Kaf (Final)', mean: 'Palm, Open', img: 'images/kaf.png' },
+            'ל': { name: 'Lamed', mean: 'Staff, Teach', img: 'images/lamed.png' },
+            'מ': { name: 'Mem', mean: 'Water, Chaos', img: 'images/mem.png' },
+            'ם': { name: 'Mem (Final)', mean: 'Water, Chaos', img: 'images/mem.png' },
+            'נ': { name: 'Nun', mean: 'Seed, Life', img: 'images/nun.png' },
+            'ן': { name: 'Nun (Final)', mean: 'Seed, Life', img: 'images/nun.png' },
+            'ס': { name: 'Samekh', mean: 'Support, Thorn', img: 'images/samekh.png' },
+            'ע': { name: 'Ayin', mean: 'Eye, See', img: 'images/ayin.png' },
+            'פ': { name: 'Pe', mean: 'Mouth, Speak', img: 'images/pe.png' },
+            'ף': { name: 'Pe (Final)', mean: 'Mouth, Speak', img: 'images/pe.png' },
+            'צ': { name: 'Tsade', mean: 'Hook, Hunt', img: 'images/tsade.png' },
+            'ץ': { name: 'Tsade (Final)', mean: 'Hook, Hunt', img: 'images/tsade.png' },
+            'ק': { name: 'Qof', mean: 'Sun, Horizon', img: 'images/qof.png' },
+            'ר': { name: 'Resh', mean: 'Head, Person', img: 'images/resh.png' },
+            'ש': { name: 'Shin', mean: 'Teeth, Fire', img: 'images/shin.png' },
+            'ת': { name: 'Tav', mean: 'Mark, Sign', img: 'images/tav.png' }
         };
 
         let currentWord = "";
         let currentVerseRef = "";
 
-        // --- 1. WHISPERS ---
+        // --- WHISPERS ---
         const words = ['RIGHTEOUSNESS', 'יהוה', 'GRACE', 'CHILD OF GOD', 'ישוע', 'ANOINTED', 'ROYALTY', 'רוּחַ הַקּוֹדֶשׁ', 'CHOSEN', 'אֱמֶת', 'FAVOR', 'שלום'];
         function initWhispers() {
             const container = document.getElementById('whisper-container');
@@ -424,155 +317,92 @@
                 el.innerText = word;
                 el.style.left = (Math.random() * 80 + 10) + '%';
                 el.style.top = (Math.random() * 80 + 10) + '%';
-                if(/[a-zA-Z]/.test(word)) {
-                    el.style.fontFamily = "'Cinzel', serif"; el.style.letterSpacing = "0.2em";
-                } else {
-                    el.style.fontFamily = "'Frank Ruhl Libre', serif";
-                }
+                el.style.fontFamily = /[a-zA-Z]/.test(word) ? "'Cinzel', serif" : "'Frank Ruhl Libre', serif";
                 container.appendChild(el);
-                el.animate([
-                    { opacity: 0, transform: 'translate(-50%, -50%) scale(0.9)' },
-                    { opacity: 0.2, transform: 'translate(-50%, -60%) scale(1)', offset: 0.5 },
-                    { opacity: 0, transform: 'translate(-50%, -70%) scale(1.1)' }
-                ], { duration: 6000, easing: 'ease-in-out' }).onfinish = () => el.remove();
+                el.animate([{ opacity: 0, transform: 'translate(-50%, -50%) scale(0.9)' }, { opacity: 0.2, transform: 'translate(-50%, -60%) scale(1)', offset: 0.5 }, { opacity: 0, transform: 'translate(-50%, -70%) scale(1.1)' }], { duration: 6000, easing: 'ease-in-out' }).onfinish = () => el.remove();
             }, 3000);
         }
 
-        // --- 2. NAVIGATION ---
         function startApp() {
-            const landing = document.getElementById('landing-page');
-            landing.style.opacity = 0; landing.style.visibility = 'hidden';
+            document.getElementById('landing-page').style.opacity = 0;
+            document.getElementById('landing-page').style.visibility = 'hidden';
             const app = document.getElementById('app-container');
             app.style.display = 'grid';
             setTimeout(() => { app.style.opacity = 1; fetchScripture(); }, 800);
         }
 
-        function toggleMaximize(panelId) {
+        function toggleMaximize(id) {
             const panels = document.querySelectorAll('.panel');
-            const target = document.getElementById(panelId);
-            
-            // Check if already maximized
+            const target = document.getElementById(id);
             if (target.classList.contains('fullscreen')) {
-                // RESTORE
-                panels.forEach(p => {
-                    p.classList.remove('fullscreen');
-                    p.classList.remove('hidden-panel');
-                });
+                panels.forEach(p => { p.classList.remove('fullscreen'); p.classList.remove('hidden-panel'); });
             } else {
-                // MAXIMIZE
-                panels.forEach(p => {
-                    if (p.id === panelId) p.classList.add('fullscreen');
-                    else p.classList.add('hidden-panel');
-                });
+                panels.forEach(p => { if(p.id===id) p.classList.add('fullscreen'); else p.classList.add('hidden-panel'); });
             }
         }
 
-        // --- 3. FETCH ---
         async function fetchScripture() {
             const book = document.getElementById('bookInput').value;
             const chapter = document.getElementById('chapterInput').value;
             const verse = document.getElementById('verseInput').value;
             const container = document.getElementById('readerContent');
-            
             container.innerHTML = '<div style="text-align:center; margin-top:50px; color:cyan;">Accessing Ancient Archives...</div>';
-
             try {
-                const heRes = await fetch(`https://www.sefaria.org/api/texts/${book}.${chapter}?context=0`);
-                const data = await heRes.json();
+                const res = await fetch(`https://www.sefaria.org/api/texts/${book}.${chapter}?context=0`);
+                const data = await res.json();
                 if (!data.he) throw new Error("Chapter not found");
-
                 let html = `<h2 style="text-align:center; font-family:'Cinzel'; margin-bottom:50px; color:white;">${book.toUpperCase()} ${chapter}</h2>`;
-
                 data.he.forEach((heVerse, i) => {
                     const enVerse = data.text[i] || "";
-                    const currentVerseNum = i + 1;
-                    
-                    // FIXED: ENGLISH ON TOP
-                    const wrappedHebrew = heVerse.split(' ').map(w => 
-                        `<span class="h-word" onclick="analyze('${w}', '${book} ${chapter}:${currentVerseNum}')" onmouseover="highlightVerse(${i})" onmouseout="unhighlightVerse(${i})">${w}</span>`
-                    ).join(' ');
-
-                    html += `
-                    <div class="verse-block" id="vblock-${i}">
-                        <div class="english-line" id="en-${i}">
-                            <span style="color:var(--text-muted); font-size:0.8em; margin-right:10px;">${currentVerseNum}</span>
-                            ${enVerse.replace(/<[^>]*>/g, '')}
-                        </div>
-                        <div class="hebrew-line">${wrappedHebrew}</div>
-                    </div>`;
+                    const wrapped = heVerse.split(' ').map(w => `<span class="h-word" onclick="analyze('${w}', '${book} ${chapter}:${i+1}')" onmouseover="highlightVerse(${i})" onmouseout="unhighlightVerse(${i})">${w}</span>`).join(' ');
+                    html += `<div class="verse-block" id="vblock-${i}"><div class="english-line" id="en-${i}"><span style="color:var(--text-muted); font-size:0.8em; margin-right:10px;">${i+1}</span>${enVerse.replace(/<[^>]*>/g, '')}</div><div class="hebrew-line">${wrapped}</div></div>`;
                 });
-
                 container.innerHTML = html;
-
-                // Auto-scroll if verse selected
-                if (verse) {
-                    setTimeout(() => {
-                        const vIdx = parseInt(verse) - 1;
-                        const el = document.getElementById(`vblock-${vIdx}`);
-                        if (el) el.scrollIntoView({behavior: "smooth", block: "center"});
-                    }, 500);
-                }
-
-            } catch (err) {
-                container.innerHTML = `<div style="text-align:center; color:red;">Error: ${err.message}</div>`;
-            }
+                if(verse) setTimeout(() => { document.getElementById(`vblock-${parseInt(verse)-1}`)?.scrollIntoView({behavior:"smooth", block:"center"}); }, 500);
+            } catch (e) { container.innerHTML = `<div style="text-align:center; color:red;">Error: ${e.message}</div>`; }
         }
 
-        // --- 4. LOGIC ---
-        function highlightVerse(idx) {
-            document.getElementById(`vblock-${idx}`).classList.add('active');
-            document.getElementById(`en-${idx}`).style.color = '#00ffff';
-            document.getElementById(`en-${idx}`).style.textShadow = '0 0 10px rgba(0,255,255,0.3)';
-        }
-        function unhighlightVerse(idx) {
-            document.getElementById(`vblock-${idx}`).classList.remove('active');
-            document.getElementById(`en-${idx}`).style.color = '#94a3b8';
-            document.getElementById(`en-${idx}`).style.textShadow = 'none';
-        }
+        function highlightVerse(i) { document.getElementById(`vblock-${i}`).classList.add('active'); document.getElementById(`en-${i}`).style.color='#00ffff'; }
+        function unhighlightVerse(i) { document.getElementById(`vblock-${i}`).classList.remove('active'); document.getElementById(`en-${i}`).style.color='#94a3b8'; }
 
         function analyze(word, ref) {
-            const cleanWord = word.replace(/[^\u0590-\u05FF]/g, ''); 
-            currentWord = cleanWord; currentVerseRef = ref;
-            document.getElementById('displayHebrew').innerText = cleanWord;
+            currentWord = word.replace(/[^\u0590-\u05FF]/g, ''); currentVerseRef = ref;
+            document.getElementById('displayHebrew').innerText = currentWord;
             document.getElementById('displayEnglish').innerText = ref;
-            const saved = localStorage.getItem('rhema_' + cleanWord) || "";
-            document.getElementById('rhemaJournal').value = saved;
-
+            document.getElementById('rhemaJournal').value = localStorage.getItem('rhema_' + currentWord) || "";
             const container = document.getElementById('lettersContainer');
             container.innerHTML = '';
-            cleanWord.split('').forEach(char => {
-                if(char < '\u05D0' || char > '\u05EA') return;
-                const data = paleoMap[char] || {name:'?', mean:'?', icon:''};
-                const card = document.createElement('div');
-                card.className = 'paleo-card';
-                card.innerHTML = `<div class="pc-icon">${data.icon}</div><div class="pc-name">${data.name}</div><div class="pc-mean">${data.mean}</div>`;
-                container.appendChild(card);
+            
+            // Build cards with images
+            currentWord.split('').forEach(char => {
+                if(paleoMap[char]) {
+                    const d = paleoMap[char];
+                    container.innerHTML += `
+                    <div class="paleo-card">
+                        <img src="${d.img}" class="paleo-img" onerror="this.style.display='none'" alt="${d.name}">
+                        <div class="pc-name">${d.name}</div>
+                        <div class="pc-mean">${d.mean}</div>
+                    </div>`;
+                }
             });
-
-            // History
-            const hist = document.getElementById('historyList');
-            const entry = document.createElement('span');
-            entry.innerText = cleanWord + " "; entry.style.marginRight = "10px"; entry.style.cursor = "pointer";
-            entry.onclick = () => analyze(word, ref);
-            hist.prepend(entry);
+            const h = document.getElementById('historyList');
+            const s = document.createElement('span'); s.innerText = currentWord+" "; s.style.cursor="pointer"; s.onclick=()=>analyze(word,ref); h.prepend(s);
         }
 
-        function saveJournal() {
-            if(currentWord) localStorage.setItem('rhema_' + currentWord, document.getElementById('rhemaJournal').value);
-        }
+        function saveJournal() { if(currentWord) localStorage.setItem('rhema_'+currentWord, document.getElementById('rhemaJournal').value); }
 
         function exportCard() {
-            if(!currentWord) return alert("Select a word first!");
+            if(!currentWord) return alert("Select a word!");
             document.getElementById('ex-hebrew').innerText = currentWord;
             document.getElementById('ex-verse').innerText = currentVerseRef;
             document.getElementById('ex-note').innerText = document.getElementById('rhemaJournal').value;
-            let icons = "";
-            currentWord.split('').forEach(c => { if(paleoMap[c]) icons += paleoMap[c].icon + " "; });
-            document.getElementById('ex-icons').innerText = icons;
-            html2canvas(document.getElementById('export-canvas'), { scale: 1, backgroundColor: null }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `Rhema-${currentWord}.png`;
-                link.href = canvas.toDataURL(); link.click();
+            let icons = ""; 
+            currentWord.split('').forEach(c => { 
+                if(paleoMap[c]) icons += `<img src="${paleoMap[c].img}" style="width:150px; margin:0 10px;">`; 
+            });
+            document.getElementById('ex-icons').innerHTML = icons;
+            html2canvas(document.getElementById('export-canvas'), {scale:1, backgroundColor:null}).then(c => {
+                const l = document.createElement('a'); l.download = `Rhema-${currentWord}.png`; l.href = c.toDataURL(); l.click();
             });
         }
 

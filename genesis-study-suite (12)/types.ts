@@ -3,7 +3,7 @@ export interface LetterDefinition {
   name: string;
   pictograph: string;
   meaning: string;
-  emoji: string;
+  img: string;
 }
 
 export type LetterMap = Record<string, LetterDefinition>;

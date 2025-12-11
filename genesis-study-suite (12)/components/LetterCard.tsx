@@ -13,14 +13,14 @@ const LetterCard: React.FC<LetterCardProps> = ({ data, index, onSave }) => {
   const [editValues, setEditValues] = useState({
     pictograph: data.pictograph,
     meaning: data.meaning,
-    emoji: data.emoji,
+    img: data.img,
   });
 
   useEffect(() => {
     setEditValues({
       pictograph: data.pictograph,
       meaning: data.meaning,
-      emoji: data.emoji,
+      img: data.img,
     });
   }, [data]);
 
@@ -33,7 +33,7 @@ const LetterCard: React.FC<LetterCardProps> = ({ data, index, onSave }) => {
     setEditValues({
       pictograph: data.pictograph,
       meaning: data.meaning,
-      emoji: data.emoji,
+      img: data.img,
     });
     setIsEditing(false);
   };
@@ -85,8 +85,8 @@ const LetterCard: React.FC<LetterCardProps> = ({ data, index, onSave }) => {
             <div className="grid grid-cols-4 gap-2">
                  <input 
                   type="text" 
-                  value={editValues.emoji}
-                  onChange={(e) => setEditValues({...editValues, emoji: e.target.value})}
+                  value={editValues.img}
+                  onChange={(e) => setEditValues({...editValues, img: e.target.value})}
                   className="col-span-1 bg-black/40 border border-white/10 rounded px-1 py-1 text-center text-lg focus:border-amber-500/50 outline-none text-white transition-colors"
                 />
                  <input 
@@ -116,7 +116,9 @@ const LetterCard: React.FC<LetterCardProps> = ({ data, index, onSave }) => {
           <div className="flex flex-col items-center gap-4 w-full">
             
             <div className="flex items-center gap-3">
-               <span className="text-2xl grayscale group-hover:grayscale-0 transition-all duration-500 opacity-80">{data.emoji}</span>
+               <div className="w-8 h-8 flex items-center justify-center">
+                  <img src={data.img} alt={data.name} className="w-full h-full object-contain opacity-80" onError={(e) => (e.currentTarget.style.display = 'none')} />
+               </div>
                <span className="h-4 w-[1px] bg-white/10"></span>
                <h3 className="text-xs font-semibold text-amber-200/80 tech-font uppercase tracking-widest">
                 {data.pictograph}
